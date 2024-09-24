@@ -67,36 +67,40 @@ private fun AphirriBottomBarPreview(
             BottombarItem(
                 title = "Home",
                 icon = R.drawable.ic_home,
-                screen = "",
+                route = "",
             ),
             BottombarItem(
                 title = "Meetings",
                 icon = R.drawable.ic_bell,
-                screen = "",
+                route = "",
             ),
             BottombarItem(
                 title = "Services",
                 icon = R.drawable.ic_services,
-                screen = "",
+                route = "",
             ),
             BottombarItem(
                 title = "Storage",
                 icon = R.drawable.ic_box,
-                screen = "",
+                route = "",
             ),
         )
 ) {
     AphirriTheme {
-        AphirriBottombar(items)
+        AphirriBottombarScaffold(
+            items,
+            ""
+        )
     }
 }
 
 @Composable
-fun <S> AphirriBottombar(
-    items: List<BottombarItem<S>>
+fun <R> AphirriBottombarScaffold(
+    items: List<BottombarItem<R>>,
+    selectedTab: R,
+    onSelectTab: (R) -> Unit = {}
 ) {
-    var currentTab by remember { mutableIntStateOf(0) }
-    var previousTab by remember { mutableIntStateOf(0) }
+    var previousTabPosition: Int by remember { mutableIntStateOf(0) }
 
     Surface(
         modifier = Modifier
@@ -119,28 +123,26 @@ fun <S> AphirriBottombar(
         ) {
             items.fastForEachIndexed { i, item ->
                 AphirriBottomAppBarButton(
-                    isPrevious = currentTab < previousTab,
-                    isSelected = currentTab == i,
+                    isPreviousPosition = i < previousTabPosition,
+                    isSelected = item.route == selectedTab,
                     item = item
                 ) {
-                    previousTab = currentTab
-                    currentTab = i
-
-                    item.onClick(item.screen)
+                    onSelectTab(item.route)
                 }
             }
+            previousTabPosition = items.indexOfFirst { it == selectedTab }
         }
     }
 }
 
 @Composable
 private fun <S> AphirriBottomAppBarButton(
-    isPrevious: Boolean = false,
+    isPreviousPosition: Boolean = false,
     isSelected: Boolean = false,
     item: BottombarItem<S>,
     onClick: () -> Unit = {}
 ) {
-    val textMovementAnimation by isSelected.createTextMovementTransition(isPrevious)
+    val textMovementAnimation by isSelected.createTextMovementTransition(isPreviousPosition)
     val backgroundAppearAnimation by isSelected.createBackgroundColorTransition()
     val changeIconColorAnimation by isSelected.createIconColorTransition()
 

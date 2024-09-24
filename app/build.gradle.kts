@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        signingConfig = signingConfigs.getByName("debug")
+    }
     // Default settings contains in aphirri.application plugin
 }
 
@@ -12,7 +15,7 @@ dependencies {
 
     implementation(projects.core.uikit)
     implementation(projects.core.navigation)
-    implementation(projects.features.bottombar)
+    implementation(projects.features.bottombar.bottombarUi)
     implementation(projects.features.home.homeUi)
     implementation(projects.features.meetings.meetingsUi)
 

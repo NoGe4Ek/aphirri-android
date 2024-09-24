@@ -51,10 +51,10 @@ import androidx.constraintlayout.compose.Transition
 import dev.aphirri.android.uikit.bars.toolbar.content.AphirriToolbarContent
 import dev.aphirri.android.uikit.bars.toolbar.content.darkToolbar
 import dev.aphirri.android.uikit.bars.toolbar.models.ContentType
-import dev.aphirri.android.uikit.bars.toolbar.utils.ToolbarConstrainedRefs.Companion.refs
 import dev.aphirri.android.uikit.bars.toolbar.models.ToolbarItem
-import dev.aphirri.android.uikit.bars.toolbar.utils.ToolbarLayoutId
 import dev.aphirri.android.uikit.bars.toolbar.models.ToolbarType
+import dev.aphirri.android.uikit.bars.toolbar.utils.ToolbarConstrainedRefs.Companion.refs
+import dev.aphirri.android.uikit.bars.toolbar.utils.ToolbarLayoutId
 import dev.aphirri.android.uikit.theme.AphirriTheme
 import kotlin.math.roundToInt
 
@@ -152,7 +152,7 @@ fun AphirriToolbar(
     Column(
         // Status bar color
         modifier = Modifier.background(
-            if (aphirriToolbarContent.toolbarType is ToolbarType.Dark)
+            if (aphirriToolbarContent.toolbarType is ToolbarType.Light)
                 AphirriTheme.colors.primary
             else
                 AphirriTheme.colors.background
@@ -183,9 +183,11 @@ fun AphirriToolbar(
                     .fillMaxSize()
                     .padding(bottom = innerPadding.calculateBottomPadding()),
             ) {
-                Shadow()
                 if (aphirriToolbarContent.contentType is ContentType.Overlay)
                     ContainerAnimation()
+                Content(content, aphirriToolbarContent.contentType, ToolbarLayoutId.CONTENT)
+
+                Shadow()
                 Container(aphirriToolbarContent.toolbarType)
                 ContainerImage(aphirriToolbarContent.toolbarType)
 
@@ -193,8 +195,6 @@ fun AphirriToolbar(
                 WithId(aphirriToolbarContent.title, ToolbarLayoutId.TITLE)
                 WithId(aphirriToolbarContent.caption, ToolbarLayoutId.CAPTION)
                 WithId(aphirriToolbarContent.additional, ToolbarLayoutId.ADDITIONAL)
-
-                Content(content, aphirriToolbarContent.contentType, ToolbarLayoutId.CONTENT)
             }
         }
     }

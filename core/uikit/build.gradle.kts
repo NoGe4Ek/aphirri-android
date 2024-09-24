@@ -3,7 +3,6 @@ plugins {
 }
 
 dependencies {
-
     implementation(libs.androidx.material3)
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.navigation.compose)

@@ -4,9 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Stable
 
 @Stable
-data class BottombarItem<S>(
+data class BottombarItem<R>(
     val title: String,
     @DrawableRes val icon: Int,
-    val screen: S,
-    val onClick: (S) -> Unit = {}
+    val route: R,
 )

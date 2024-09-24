@@ -36,18 +36,30 @@ dependencyResolutionManagement {
 rootProject.name = "aphirri-android"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-include(
-    ":app",
-    ":core:common",
-    ":core:uikit",
-    ":core:navigation",
-    ":features:home:home-api",
-    ":features:home:home-impl",
-    ":features:home:home-provider",
-    ":features:home:home-ui",
-)
-include(":features:bottombar")
+
+include(":app")
+
+include(":core:common")
+include(":core:uikit")
+include(":core:navigation")
+
+include(":features:bottombar:bottombar-ui")
+
+include(":features:home:home-api")
+include(":features:home:home-impl")
+include(":features:home:home-provider")
+include(":features:home:home-ui")
+
 include(":features:meetings:meetings-api")
 include(":features:meetings:meetings-impl")
 include(":features:meetings:meetings-provider")
 include(":features:meetings:meetings-ui")
+
+include(":features:auth:auth-api")
+include(":features:auth:auth-impl")
+include(":features:auth:auth-provider")
+include(":features:auth:auth-ui")
+
+include(":features:services:services-ui")
+
+include(":features:storage:storage-ui")
