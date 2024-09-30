@@ -1,4 +1,5 @@
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val libs = the<LibrariesForLibs>()
 
@@ -24,6 +25,21 @@ tasks {
     validatePlugins {
         enableStricterValidation = true
         failOnWarning = true
+    }
+
+    withType(KotlinCompile::class).all {
+        // Trigger files to full recompile, cause incremental build not recompile all changes, like
+        // manifestPlaceholders updates in Flavor.kt
+        val directory = fileTree("src/main/kotlin/dev/aphirri/android/plugins/common") {
+            include("**/*")
+        }
+        inputs.files(directory.files)
+
+        // Remove gradle warning "Couldn't create" some specific tasks, like compileKotlin, compileTestKotlin, etc.
+        // cause jvmToolchain not enough
+        kotlinOptions {
+            jvmTarget = "21"
+        }
     }
 }
 

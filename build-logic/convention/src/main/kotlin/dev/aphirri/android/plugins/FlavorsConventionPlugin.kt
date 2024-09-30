@@ -11,7 +11,7 @@ class FlavorsConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             extensions.configure<ApplicationExtension> {
-                configureFlavors<ProductFlavor>()
+                configureFlavors<ProductFlavor, ApplicationExtension>()
             }
         }
     }

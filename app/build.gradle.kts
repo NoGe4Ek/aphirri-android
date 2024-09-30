@@ -3,13 +3,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-android {
-    defaultConfig {
-        signingConfig = signingConfigs.getByName("debug")
-    }
-    // Default settings contains in aphirri.application plugin
-}
-
 dependencies {
     implementation(libs.kotlin.serialization)
 
@@ -29,10 +22,5 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.core.splashscreen)
 }

@@ -6,6 +6,7 @@ import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.BuildType
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.ProductFlavor
 
 @Suppress("EnumEntryName")
 internal enum class AphirriBuildType(val suffix: String? = null) {
@@ -13,7 +14,7 @@ internal enum class AphirriBuildType(val suffix: String? = null) {
     release,
 }
 
-internal inline fun <reified T : BuildType> CommonExtension<*, *, *, *, *, *>.configureBuildTypes(
+internal inline fun <reified T : BuildType, reified E : CommonExtension<*, *, *, *, *, *>> E.configureBuildTypes(
     crossinline buildTypeConfigurationBlock: T.(buildType: AphirriBuildType) -> Unit = {}
 ) {
     buildTypes {
@@ -21,7 +22,7 @@ internal inline fun <reified T : BuildType> CommonExtension<*, *, *, *, *, *>.co
             val buildType = maybeCreate(it.name) as? T ?: error("Unspecified build type class")
             buildType.apply {
                 buildTypeConfigurationBlock(it)
-                if (this@configureBuildTypes is ApplicationExtension && buildType is ApplicationBuildType) {
+                if (E::class == ApplicationExtension::class && buildType is ApplicationBuildType) {
                     it.suffix?.let { suffix ->
                         buildType.configureSuffixes(suffix)
                     }

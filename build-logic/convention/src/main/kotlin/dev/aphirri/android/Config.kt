@@ -1,7 +1,7 @@
 package dev.aphirri.android
 
 object Config {
-    const val APPLICATION_LABEL_KEY = "appLabel"
+    const val APPLICATION_LABEL_KEY = "appName"
     const val VERSION_NAME_SUFFIX_SEPARATOR = "-"
     const val APPLICATION_ID_SUFFIX_SEPARATOR = "."
     const val NAME_SPACE_SEPARATOR = "."

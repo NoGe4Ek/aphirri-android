@@ -6,6 +6,7 @@ import com.android.build.gradle.LibraryExtension
 import dev.aphirri.android.Config.RESOURCES_PREFIX_SEPARATOR
 import dev.aphirri.android.androidTestImplementation
 import dev.aphirri.android.getModulePath
+import dev.aphirri.android.plugins.common.AphirriFlavor
 import dev.aphirri.android.plugins.common.configureFlavors
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -28,7 +29,7 @@ class LibraryConventionPlugin : Plugin<Project> {
             extensions.configure<LibraryExtension> {
                 configureKotlinAndroid(this)
                 configureAndroidCompose(this)
-                configureFlavors<ProductFlavor>()
+                configureFlavors<ProductFlavor, LibraryExtension>()
 
                 // The resource prefix is derived from the module name,
                 // so resources inside ":core:module1" must be prefixed with "core_module1_"
@@ -36,6 +37,7 @@ class LibraryConventionPlugin : Plugin<Project> {
                     path.getModulePath(withSeparator = RESOURCES_PREFIX_SEPARATOR) + RESOURCES_PREFIX_SEPARATOR
             }
 
+            // Also disable capability to run composable preview on emulator with error: "Cannot obtain the package"
             extensions.configure<LibraryAndroidComponentsExtension> {
                 disableUnnecessaryAndroidTests(target)
             }

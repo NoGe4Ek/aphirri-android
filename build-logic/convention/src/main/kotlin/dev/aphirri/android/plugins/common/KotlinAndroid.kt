@@ -35,7 +35,6 @@ internal fun Project.configureKotlinAndroid(
 private fun Project.configureNamespace(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     val namespace = APPLICATION_ID + NAME_SPACE_SEPARATOR + path.getModulePath(withSeparator = NAME_SPACE_SEPARATOR)
     commonExtension.namespace = namespace.removeSuffixIfPresent(".app")
-
 }
 
 /**

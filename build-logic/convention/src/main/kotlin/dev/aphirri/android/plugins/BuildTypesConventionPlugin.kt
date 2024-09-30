@@ -11,7 +11,7 @@ class BuildTypesConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             extensions.configure<ApplicationExtension> {
-                configureBuildTypes<BuildType>()
+                configureBuildTypes<BuildType, ApplicationExtension>()
             }
         }
     }

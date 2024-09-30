@@ -13,14 +13,13 @@ import dev.aphirri.android.plugins.common.configureFlavors
 import dev.aphirri.android.plugins.common.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
 
 class ApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("com.android.application")
+                apply(libs.plugins.android.application.get().pluginId)
                 apply("org.jetbrains.kotlin.android")
                 apply("org.jetbrains.kotlin.plugin.compose")
             }
@@ -28,7 +27,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
             extensions.configure<ApplicationExtension> {
                 configureKotlinAndroid(this)
                 configureAndroidCompose(this)
-                configureBuildTypes<ApplicationBuildType> {
+                configureBuildTypes<ApplicationBuildType, ApplicationExtension> {
                     when (it) {
                         AphirriBuildType.debug -> {
                             isDefault = true
@@ -46,7 +45,8 @@ class ApplicationConventionPlugin : Plugin<Project> {
                         }
                     }
                 }
-                configureFlavors<ApplicationProductFlavor> {
+
+                configureFlavors<ApplicationProductFlavor, ApplicationExtension> {
                     when (it) {
                         AphirriFlavor.stage -> {
                             isDefault = true
@@ -61,6 +61,7 @@ class ApplicationConventionPlugin : Plugin<Project> {
                 defaultConfig.applicationId = Config.APPLICATION_ID
                 defaultConfig.versionCode = Config.VERSION_CODE
                 defaultConfig.versionName = Config.VERSION_NAME
+                defaultConfig.signingConfig = signingConfigs.getByName(AphirriBuildType.debug.name)
 
                 // Exclude licenses
                 packaging {

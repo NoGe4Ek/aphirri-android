@@ -13,7 +13,11 @@ import org.gradle.api.Project
  */
 internal fun LibraryAndroidComponentsExtension.disableUnnecessaryAndroidTests(
     project: Project,
-) = beforeVariants {
-    it.enableAndroidTest = it.enableAndroidTest
-            && project.projectDir.resolve("src/androidTest").exists()
+) = beforeVariants { variant ->
+
+    if (variant.buildType == AphirriBuildType.release.name) {
+        // Also disable capability to run composable preview on emulator with error: "Cannot obtain the package"
+        variant.enableAndroidTest = variant.enableAndroidTest
+                && project.projectDir.resolve("src/androidTest").exists()
+    }
 }
